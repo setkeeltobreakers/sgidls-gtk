@@ -1,0 +1,35 @@
+{
+config : {
+       	 name : "Hello World!",
+	 variable : {"variable" : "value-picked-pucker", enable : false},
+	 variable : {"text-variable" : ""}
+	 },
+window : {
+       	 list : {
+	      	checklist : [{
+			      label : "Check this then hit the echo button.",
+			      variable : "variable"
+			     },
+			     {
+			      label : "Check this to enable the exit.",
+			      enable : "exit_button"
+			     }],
+		hline : null,
+		label : "Type in this box then press the echo button.",
+		textbox : {
+			  variable : "text-variable"
+			  },
+		button : {
+       	 	       	 label : "Echo button",
+	 	  	 command : "echo %variable% %text-variable% sneed"
+       	 	  	 },
+		console : null,
+	  	button : {
+       	 	         label : "Wow chica bow wow",
+	 	  	 command : exit,
+			 name : "exit_button",
+			 enable : false
+       	 	  	 }
+	  	}
+	}
+}

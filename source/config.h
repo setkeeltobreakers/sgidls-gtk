@@ -1,0 +1,6 @@
+#ifndef SGIDLS_CONFIG
+#define SGIDLS_CONFIG
+
+#define TABLE_MAX_LOAD_FACTOR 0.75
+
+#endif

@@ -1,0 +1,30 @@
+{
+config : {
+	 name : "ls GUI",
+	 variable : {"size" : "-sh", enable : false},
+	 variable : {"all" : "-a", enable : false},
+	 variable : {"recurse" : "-R", enable : false},
+	 variable : {"file" : ""}
+       	 },
+window : {
+       	 row : {
+	       column : {
+	      	      checklist : [ {label : "Show file size", variable : "size"},
+		      		    {label : "Show hidden files", variable : "all"},
+			      	    {label : "List files recursively", variable : "recurse"},
+			    	  ],
+		      list : {
+		      	     label : "Directory Path",
+		      	     textbox : { variable : "file"},
+		      	     }
+		      },
+		vline : null,
+		console : null,
+		vline : null,
+		column : {
+		       button : {label : "Run", command : "ls %size% %all% %recurse% %file%"},
+		       button : {label : "Exit", command : exit}
+		       }
+		}
+       	 }
+}
