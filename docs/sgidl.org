@@ -1,0 +1,61 @@
+This file serves to document the SGIDL language and describe how to build graphical interfaces for shell scripts using it.
+
+* SGIDL
+** Basic Format
+   SGIDL is a JSON-derived data description language. Objects are marked by a pair of curly braces and contain key-value pairs seperated by a colon.
+   Keys may be either strings or keywords, while values can be strings, booleans, numbers, objects, or arrays marked with square brackets. Entries in
+   objects must be seperated with commas. 
+   Keywords in SGIDL are highly contextual. The exact meaning of each keyword depends largely on its context, and what keywords are permitted in any
+   location depend entirely on the context. For example, the 'enable' keyword, when used in the context of a 'variable' object, determines whether the 
+   variable starts as being enabled or disabled. However, in the context of a 'checkbox' object, the 'enable' keyword defines a widget that the checkbox
+   can enable/disable.
+   Files must both begin and end with curly braces, as the entire description is considered to be an object. Files may contain two keywords: 'config'
+   and 'window', with 'config' always coming before 'window'. SGIDL also supports one line comments starting with #.
+
+#+BEGIN_EXAMPLE
+{
+config : {},
+window : {}
+} # The most minimal interface file.
+#+END_EXAMPLE
+
+*** Config
+    The config object serves to configure the entire interface. At present, there are two supported keywords 'name' and 'variable'.
+**** Name
+     When used in the config object, the 'name' keyword sets the name of the window.
+
+#+BEGIN_EXAMPLE
+config : { name : "Hello Window!"}
+#+END_EXAMPLE
+
+**** Variable
+     When used in the config object, the 'variable' keyword defines a variable and sets its value. Variable values can only be strings. Variables can
+     be either disabled or enabled. When enabled, the variable will return its defined value, but when disabled, it will return an empty string. The 
+     'enable' keyword can be used inside a variable object to determine if the variable is enabled or disabled when the interface first loads. 
+
+#+BEGIN_EXAMPLE
+variable : {"variable-name" : "variable value", enable : true} # 'enable' only accepts boolean values.
+#+END_EXAMPLE
+
+*** Window
+    The 'window' object is the highest level object that describes the actual interface that users will interact with. The window object holds exactly
+    one widget or container, reflecting the limitations of GTK, the toolkit underlying SGIDLS. Windows can hold any widget or container.
+
+#+BEGIN_EXAMPLE
+window : { label : "Hello World!" }
+#+END_EXAMPLE
+
+** Widgets
+   Widgets are the fundamental objects of a graphical interface. They are what the end user actually use to interact with the program.
+
+*** Button
+    Buttons are one of the most important widgets in a SGIDL interface. 
+*** Label
+*** Checklist
+*** Textbox
+*** Lines
+*** Console
+
+** Containers
+*** Lists
+*** Columns and Rows
