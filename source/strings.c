@@ -165,9 +165,8 @@ char *parseCommand(char *command) {
     endString->chars[0] = ' ';
     string->next = endString;
     LinkedString *finalString = collapseList(da_root);
-
     freeStringList(da_root);
-    
+    saveString(finalString);
     return finalString->chars;
   } else {
     return command;

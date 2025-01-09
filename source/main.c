@@ -56,7 +56,7 @@ void runCommand(GtkWidget *widget, gpointer data) {
     char *line = NULL;
     size_t n = 0;
     GtkTextIter iter;
-    
+    gtk_text_buffer_set_text(shell_buffer, "", -1);
     while ((getline(&line, &n, input)) != -1) {    
     gtk_text_buffer_get_end_iter(shell_buffer, &iter);
     gtk_text_buffer_insert(shell_buffer, &iter, line, -1);

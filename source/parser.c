@@ -188,6 +188,7 @@ static void textbox(GtkWidget *parent) {
 
       hasVariable = true;
       char *variable = pluckToken(&parser.previous);
+      char *value = gtk_entry_buffer_get_text(text);
       g_signal_connect(text, "inserted-text", G_CALLBACK(updateVariable), variable);
     } break;
     case TOKEN_NAME: {
