@@ -77,6 +77,9 @@ static void skipWhitespace() {
       advance();
       scanner.line++;
       break;
+    case '#': /* Comments */
+      while (peek() != '\n' && !isAtEnd()) advance(); /* Consume all characters except for \n in a comment */
+      break;
     default:
       return;
     }

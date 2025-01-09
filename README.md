@@ -14,9 +14,11 @@ any technically inclined user to easily 'pop the hood' so to speak and modify an
 ## Building
 Fetch dependencies
 On Debian or Debian-based distributions (Ubuntu, Linux Mint, Trisquel, etc.)
+
 `sudo apt get libgtk-3-0` <- Must be GTK 3.0
 
 Build
+
 `cd source/ && 
 make && 
 cd ../`

@@ -4,7 +4,6 @@ config : {
 	 variable : {"size" : "-sh", enable : false},
 	 variable : {"all" : "-a", enable : false},
 	 variable : {"recurse" : "-R", enable : false},
-	 variable : {"file" : ""}
        	 },
 window : {
        	 column : {

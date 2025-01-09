@@ -490,7 +490,8 @@ void build(char *source, GtkWidget *app_window) {
     config();
     consume(TOKEN_COMMA, "Missing comma.");
   }
-  if (match(TOKEN_WINDOW)) consume(TOKEN_COLON, "Missing colon.");
+  consume(TOKEN_WINDOW, "Missing window keyword.");
+  consume(TOKEN_COLON, "Missing colon.");
   window(app_window);
   consume(TOKEN_CLOSE_OBJECT, "Missing closing curly brace for description file.");
   consume(TOKEN_EOF, "File continues after window object ends!");
