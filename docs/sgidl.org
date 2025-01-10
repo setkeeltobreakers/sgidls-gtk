@@ -24,6 +24,8 @@ window : {}
 **** Name
      When used in the config object, the 'name' keyword sets the name of the window.
 
+     No valid keywords.
+
 #+BEGIN_EXAMPLE
 config : { name : "Hello Window!"}
 #+END_EXAMPLE
@@ -32,6 +34,9 @@ config : { name : "Hello Window!"}
      When used in the config object, the 'variable' keyword defines a variable and sets its value. Variable values can only be strings. Variables can
      be either disabled or enabled. When enabled, the variable will return its defined value, but when disabled, it will return an empty string. The 
      'enable' keyword can be used inside a variable object to determine if the variable is enabled or disabled when the interface first loads. 
+
+     Valid keywords.
+     - enable :: Determines if the variable is enabled or disabled by default.
 
 #+BEGIN_EXAMPLE
 variable : {"variable-name" : "variable value", enable : true} # 'enable' only accepts boolean values.
@@ -49,13 +54,100 @@ window : { label : "Hello World!" }
    Widgets are the fundamental objects of a graphical interface. They are what the end user actually use to interact with the program.
 
 *** Button
-    Buttons are one of the most important widgets in a SGIDL interface. 
+    Buttons are one of the most important widgets in a SGIDL interface. The button object defines a label, marked by the 'label' keyword which is displayed 
+    on the button and a command that is executed when the user presses the button. This command can be a string or the 'exit' keyword. The string will be 
+    interpreted as a shell command, while the 'exit' keyword will close the window and exit the program. Shell command strings can contain references to 
+    variables by enclosing the variable name in '%' characters. Buttons can also be named using the 'name' keyword, which allows them to be referenced by
+    other widgets. We'll talk more about naming widgets once we get to the 'checklist' widget.
+
+    Valid keywords:
+    - label :: Defines a label which is displayed on the button. Mandatory.
+    - command :: Defines a command which is executed upon pressing the button. Mandatory.
+    - exit :: Used as the value of a 'command' entry. Results in the window closing and program exiting upon pressing the button.
+    - name :: Provides a name to the widget which can then be referenced by other widgets.
+
+#+BEGIN_EXAMPLE
+button : { label : "Press me!", command : "echo %variable-name%"}
+button : { label : "Exit", command : exit }
+#+END_EXAMPLE
+
 *** Label
+    Labels widgets display a string to the user. They can be used to provide usage information or describe the purpose of some widgets or groups of widgets.
+
+    No valid keywords.
+
+#+BEGIN_EXAMPLE
+window : { label : "Hello World!" }
+#+END_EXAMPLE
+
 *** Checklist
+    Checklists define an array of checkbox objects. Each checkbox object defines a label which will be displayed next to the checkbox and some connection with
+    either a variable or another widget. Variables must be defined before they can be referenced in a checkbox. If connected with a variable, then checking or
+    unchecking the checkbox will enable or disable the variable. If connected with a widget, then unchecking the checkbox will cause the connected widget to 
+    start ignoring input, while checking it will cause the widget to begin accepting input again.
+
+    Valid keywords:
+    - label :: Defines a label which is displayed alongside the checkbox. Mandatory
+    - variable :: Connects the checkbox to a variable.
+    - enable :: Connexts the checkbox to a named widget. Checkbox must contain either this keyword or the 'variable' keyword, or both.
+
+#+BEGIN_EXAMPLE
+checklist : [{label : "Check me!", variable : "variable-name"}, {label : "Check me then click the button!", enable : "button-name"}]
+#+END_EXAMPLE
+
 *** Textbox
+    Textboxes allow the user to enter in some text and have it bound to a variable that can then be referenced by other widgets. Textboxes can also be named 
+    so that they can be enabled/disabled by checkboxes. Note that disabling a textbox via a checkbox does not disable the variable the textbox is associated 
+    with, unless that variable is explicitly connected to the checkbox as well.
+
+    Valid keywords:
+    - variable :: Connects the textbox to a variable.
+    - name :: Names the widget so that it can be referenced by other widgets.
+
+#+BEGIN_EXAMPLE
+textbox : { variable : "textbox-variable", name : "the-textbox" }
+#+END_EXAMPLE
+
 *** Lines
+    Lines are purely decorative widgets that are used to seperate widgets from each other. They come in two flavors: 'hline' and 'vline' referring to 
+    horizontal and vertical lines, respectively. They take no arguments, but for syntatic reasons they must contain a value. This value can be anything,
+    but by convention it is set to 'null', although this value is completely ignored.
+
+    No valid keywords.
+
+#+BEGIN_EXAMPLE
+window : {
+         list : { vline : null, hline : null }
+         }
+#+END_EXAMPLE
+
 *** Console
+    Consoles are one of the most important widgets in a SGIDL interface. Its purpose is to capture and display the output from shell commands that the interface
+    runs. At present, consoles support no options but, similarly to lines, must contain a value for syntactic purposes. This will change in the future. Consoles
+    will soon support a variety of options, including binding portions of the output to variables.
+
+    No valid keywords.
+
+#+BEGIN_EXAMPLE
+window : { console : null }
+#+END_EXAMPLE
 
 ** Containers
+   Containers are widgets whose main purpose is to hold other widgets, including other contianers.
+
 *** Lists
+    Lists can hold an arbitrary number of widgets. Lists display them in a vertical, well, list, and children of lists will not expand to fill the space allotted
+    to the list. That second part is the main difference between lists and the next group of containers.
+
+#+BEGIN_EXAMPLE
+list : { hline : null, label : "Hello everyone!", hline : null }
+#+END_EXAMPLE
+
 *** Columns and Rows
+    Columns and rows can both hold arbitrary numbers of widgets, which they will display in vertically or horizontally, respectively. The main difference between
+    these two containers and the previously described list is that widgets in columns and rows will expand to fill available space if the window is larger than
+    the minimum required to display all widgets.
+
+#+BEGIN_EXAMPLE
+row : { column : { label : "Wowee!", label : "What the dog doin?"}, hline : null, column : { label : "Woah!", label : "Let's go!" }}
+#+END_EXAMPLE
