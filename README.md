@@ -16,7 +16,7 @@ Fetch dependencies
 
 On Debian or Debian-based distributions (Ubuntu, Linux Mint, Trisquel, etc.)
 
-`sudo apt install libgtk-3-dev` <- Must be GTK 3
+`sudo apt install build-essential libgtk-3-dev` <- Must be GTK 3
 
 Build
 
