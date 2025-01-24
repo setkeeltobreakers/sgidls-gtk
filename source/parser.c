@@ -273,6 +273,8 @@ static void checklist(GtkWidget *parent) {
 }
 
 static void console(GtkWidget *parent) {
+  consume(TOKEN_OPEN_OBJECT, "Missing opening curly brace for console description!");
+
   GtkWidget *textview;
   GtkWidget *scrollwindow;
 
@@ -283,7 +285,20 @@ static void console(GtkWidget *parent) {
   gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), false);
   gtk_container_add(GTK_CONTAINER(parent), scrollwindow);
   gtk_container_add(GTK_CONTAINER(scrollwindow), textview);
-  advance(); /* Replace this later so you can add options to the console. */
+
+  while (!match(TOKEN_CLOSE_OBJECT)) {
+    advance();
+    switch (parser.previous.type) {
+    case TOKEN_VARIABLE: {
+      consume(TOKEN_COLON, "Missing colon.");
+      consume(TOKEN_STRING, "Invalid variable name");
+
+      char *variable = pluckToken(&parser.previous);
+      g_signal_connect(shell_buffer, "notify::cursor-position", G_CALLBACK(updateConsoleVariable), variable);
+    } break;
+    default: error("Invalid keyword for console description.");
+    }
+  }
 }
 
 static void button(GtkWidget *parent) {

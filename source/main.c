@@ -63,7 +63,6 @@ void runCommand(GtkWidget *widget, gpointer data) {
     }
     free(line);
   }
-  free(command);
 }
 
 void toggleCommand(GtkWidget *widget, gpointer key) {
@@ -88,6 +87,32 @@ void updateVariable(GtkEntryBuffer *text, guint position, gchar *chars, guint n_
   /* if (!success) {
     fprintf(stderr, "Error updating variable '%s' from text buffer!", (char *)key);
     } */
+}
+
+void updateConsoleVariable(GObject *text, GParamSpec *pspec, gpointer key) {
+  static int check_line = -1; /* Static variable to check if the cursor actually moved a line */
+  GtkTextMark *insert = gtk_text_buffer_get_insert(shell_buffer);
+  GtkTextIter insert_iter;
+  gtk_text_buffer_get_iter_at_mark(shell_buffer, &insert_iter, insert);
+  int insert_line = gtk_text_iter_get_line(&insert_iter);
+  if (insert_line == check_line) {
+    return;
+  } else {
+    check_line = insert_line;
+  }
+
+  GtkTextIter line_start;
+  gtk_text_buffer_get_iter_at_line(shell_buffer, &line_start, insert_line);
+  GtkTextIter line_end = line_start;
+  gtk_text_iter_forward_to_line_end(&line_end);
+
+  static char *prev_chars = NULL;
+  if (prev_chars != NULL) {
+    free(prev_chars);
+  }
+  char *new_chars = gtk_text_buffer_get_slice(shell_buffer, &line_start, &line_end, false);
+  prev_chars = new_chars;
+  setVariable(key, new_chars);
 }
 
 static void activate(GtkApplication *app, gpointer userdata) {

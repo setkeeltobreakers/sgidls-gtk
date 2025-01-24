@@ -130,10 +130,10 @@ char *parseCommand(char *command) {
 	da_root = pluckString(start, i);
 	string = da_root;
       } else {
-	LinkedString *newString = pluckString(start, i);
+	LinkedString *newString = pluckString(start + 1, i - 1);
 	string->next = newString;
 	string = newString;
-	string->chars[0] = ' ';
+	//string->chars[0] = ' ';
       } /* Pluck initial portion of string. */
       start = start + i + 1;
       i = 0; /* Reset start and i */

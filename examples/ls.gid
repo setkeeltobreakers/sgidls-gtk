@@ -3,7 +3,7 @@ config : {
 	 name : "ls GUI",
 	 variable : {"size" : "-sh", enable : false},
 	 variable : {"all" : "-a", enable : false},
-	 variable : {"recurse" : "-R", enable : false},
+	 variable : {"recurse" : "-R", enable : false}
        	 },
 window : {
        	 column : {
@@ -15,9 +15,10 @@ window : {
 		       label : "Directory Path",
 		       textbox : { variable : "file"},
 		       },
-		console : null,
+		console : { variable : "selection" },
 		row : {
-		      button : {label : "Run", command : "ls %size% %all% %recurse% %file%"},
+		      button : {label : "List", command : "ls %size% %all% %recurse% %file%"},
+		      button : {label : "Change Directory", command : "ls %file%%selection%"},
 		      button : {label : "Exit", command : exit}
 		      }
 		}

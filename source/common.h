@@ -9,6 +9,7 @@ extern void runCommand(GtkWidget *widget, gpointer data);
 extern void toggleCommand(GtkWidget *widget, gpointer key);
 extern void toggleWidget(GtkWidget *widget, gpointer name);
 extern void updateVariable(GtkEntryBuffer *text, guint position, gchar *chars, guint n_chars, gpointer key);
+extern void updateConsoleVariable(GObject *text, GParamSpec *pspec, gpointer key);
 
 extern GtkTextBuffer *shell_buffer;
 
